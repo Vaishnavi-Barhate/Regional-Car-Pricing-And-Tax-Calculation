@@ -12,7 +12,7 @@ public final class CarPricingService {
         Region region = CountryRegionMapper
                 .getRegionByCountry(country)
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Invalid or unsupported country: " + country)
+                        new IllegalArgumentException("Invalid country: " + country)
                 );
 
         RegionalPricing pricing = PricingFactory.getPricingByRegion(region);
