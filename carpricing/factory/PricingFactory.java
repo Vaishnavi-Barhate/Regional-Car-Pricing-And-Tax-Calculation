@@ -6,20 +6,22 @@ import carpricing.pricing.AsiaPricing;
 import carpricing.pricing.EuropePricing;
 import carpricing.pricing.RegionalPricing;
 import carpricing.pricing.USAPricing;
+import java.util.Map;
+import java.util.function.Supplier;
 
-/**
- * Factory class responsible for providing the correct
- * RegionalPricing implementation based on region.
- */
-public class PricingFactory {
+public final class PricingFactory {
+
+    private static final Map<Region, Supplier<RegionalPricing>> PRICING_MAP =
+            Map.of(
+                    Region.R1, USAPricing::new,
+                    Region.R2, EuropePricing::new,
+                    Region.R3, AsiaPricing::new,
+                    Region.R4, AfricaPricing::new
+            );
 
     public static RegionalPricing getPricingByRegion(Region region) {
-
-        return switch (region) {
-            case R1 -> new USAPricing();
-            case R2 -> new EuropePricing();
-            case R3 -> new AsiaPricing();
-            case R4 -> new AfricaPricing();
-        };
+        return PRICING_MAP
+                .getOrDefault(region, AsiaPricing::new)
+                .get();
     }
 }

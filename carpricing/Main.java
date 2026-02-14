@@ -2,16 +2,17 @@ package carpricing;
 
 import carpricing.service.CarPricingService;
 
-/**
- * Application entry point.
- */
-public class Main {
+public final class Main {
 
     public static void main(String[] args) {
 
-        CarPricingService service = new CarPricingService();
+        var service = new CarPricingService();
 
-        // Example input
-        service.calculatePrice("India");
+        try {
+            String country = (args.length > 0) ? args[0] : "India";
+            service.calculatePrice(country);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 }
